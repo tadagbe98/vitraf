@@ -47,7 +47,7 @@ export default function Header() {
               +225 01 60 32 88 08
             </a>
           </Button>
-          <Button asChild>
+          <Button asChild className="hidden md:flex">
             <Link href="#contact">Devis Gratuit</Link>
           </Button>
           <div className="md:hidden">
@@ -66,6 +66,9 @@ export default function Header() {
                   <nav className="flex flex-col gap-4">
                     {renderNavLinks(true)}
                   </nav>
+                  <Button asChild className="mt-8">
+                    <Link href="#contact">Devis Gratuit</Link>
+                  </Button>
                 </div>
               </SheetContent>
             </Sheet>
