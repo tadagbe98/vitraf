@@ -60,8 +60,10 @@ export default function Header() {
               </SheetTrigger>
               <SheetContent side="right">
                 <div className="flex flex-col p-6">
-                  <Logo />
-                  <nav className="flex flex-col gap-4 mt-8">
+                  <div className="mb-8">
+                    <Logo />
+                  </div>
+                  <nav className="flex flex-col gap-4">
                     {renderNavLinks(true)}
                   </nav>
                 </div>
