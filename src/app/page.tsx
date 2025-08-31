@@ -15,7 +15,7 @@ export default async function Home() {
       <main className="flex-1">
         <section id="hero" className="relative h-[80vh] w-full">
           <Image
-            src="https://picsum.photos/seed/hero-window/1920/1080"
+            src="/carou.jpg"
             alt="Chantier de menuiserie aluminium"
             fill
             className="object-cover"
@@ -125,7 +125,7 @@ export default async function Home() {
               </div>
               <div className="relative h-80 w-full overflow-hidden rounded-lg">
                 <Image
-                  src="https://picsum.photos/seed/worker/600/400"
+                  src="/rea.jpeg"
                   alt="Artisan menuisier travaillant sur un cadre en aluminium"
                   className="object-cover"
                   fill
