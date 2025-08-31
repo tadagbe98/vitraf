@@ -39,3 +39,14 @@ export const contactMessages = [
         date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3)
     },
 ];
+
+export const shopItems = [
+    { id: 1, src: "https://picsum.photos/seed/p1/400/300", name: "Charnière de porte", price: 3500, description: "Charnière robuste en acier inoxydable pour porte en aluminium.", aiHint: "door hinge" },
+    { id: 2, src: "https://picsum.photos/seed/p2/400/300", name: "Poignée de fenêtre", price: 5000, description: "Poignée de fenêtre design et ergonomique.", aiHint: "window handle" },
+    { id: 3, src: "https://picsum.photos/seed/p3/400/300", name: "Serrure de sécurité", price: 12000, description: "Serrure à 3 points pour une sécurité maximale.", aiHint: "security lock" },
+    { id: 4, src: "https://picsum.photos/seed/p4/400/300", name: "Rail de porte coulissante", price: 25000, description: "Rail en aluminium pour porte coulissante, longueur 2m.", aiHint: "sliding door rail" },
+    { id: 5, src: "https://picsum.photos/seed/p5/400/300", name: "Joint d'étanchéité (mètre)", price: 1500, description: "Joint en caoutchouc pour assurer l'étanchéité des fenêtres.", aiHint: "rubber seal" },
+    { id: 6, src: "https://picsum.photos/seed/p6/400/300", name: "Vis auto-perceuse (x100)", price: 4500, description: "Lot de 100 vis pour fixation de cadres en aluminium.", aiHint: "screws box" },
+    { id: 7, src: "https://picsum.photos/seed/p7/400/300", name: "Verre trempé (m²)", price: 35000, description: "Verre de sécurité trempé, épaisseur 6mm.", aiHint: "tempered glass" },
+    { id: 8, src: "https://picsum.photos/seed/p8/400/300", name: "Kit de nettoyage Alu", price: 8000, description: "Produits spécifiques pour l'entretien de l'aluminium.", aiHint: "cleaning kit" },
+];

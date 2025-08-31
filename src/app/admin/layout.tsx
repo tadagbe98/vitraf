@@ -1,6 +1,6 @@
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarContent, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { Logo } from "@/components/logo";
-import { Home, Images, MessageSquare, LogOut } from "lucide-react";
+import { Home, Images, MessageSquare, LogOut, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -30,6 +30,11 @@ export default function AdminLayout({
             <SidebarMenuItem>
               <SidebarMenuButton asChild tooltip="Galerie">
                 <Link href="/admin/gallery"><Images /><span>Galerie</span></Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+             <SidebarMenuItem>
+              <SidebarMenuButton asChild tooltip="Boutique">
+                <Link href="/admin/shop"><ShoppingCart /><span>Boutique</span></Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>

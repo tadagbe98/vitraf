@@ -22,6 +22,9 @@ export default function Footer() {
             <li>
               <Link href="#gallery" className="hover:text-primary transition-colors">Nos Réalisations</Link>
             </li>
+             <li>
+              <Link href="/shop" className="hover:text-primary transition-colors">Boutique</Link>
+            </li>
             <li>
               <Link href="#contact" className="hover:text-primary transition-colors">Contact</Link>
             </li>

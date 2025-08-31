@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "./ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescription } from "./ui/sheet";
 import { Menu, Phone } from "lucide-react";
 import { Logo } from "./logo";
 import { usePathname } from "next/navigation";
@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 const navLinks = [
   { href: "#services", label: "Services" },
   { href: "#gallery", label: "Réalisations" },
+  { href: "/shop", label: "Boutique" },
   { href: "#about", label: "À Propos" },
   { href: "#contact", label: "Contact" },
 ];
@@ -18,15 +19,16 @@ const navLinks = [
 export default function Header() {
   const pathname = usePathname();
 
-  const renderNavLinks = (isMobile: boolean) => (
+  const renderNavLinks = (isMobile: boolean, onLinkClick?: () => void) => (
     navLinks.map((link) => (
       <Link
         key={link.href}
-        href={pathname === "/" ? link.href : `/${link.href}`}
+        href={link.href.startsWith("#") && pathname !== "/" ? `/${link.href}` : link.href}
         className={cn(
           "transition-colors hover:text-primary",
           isMobile ? "text-lg py-2" : "text-sm font-medium"
         )}
+        onClick={onLinkClick}
       >
         {link.label}
       </Link>
@@ -59,16 +61,26 @@ export default function Header() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right">
-                <SheetTitle className="sr-only">Menu</SheetTitle>
-                <SheetDescription className="sr-only">Navigation principale du site</SheetDescription>
+                <SheetHeader>
+                  <SheetTitle className="sr-only">Menu</SheetTitle>
+                  <SheetDescription className="sr-only">Navigation principale du site</SheetDescription>
+                </SheetHeader>
                 <div className="flex flex-col p-6">
                   <div className="mb-8">
                     <Logo />
                   </div>
                   <nav className="flex flex-col gap-4">
-                    {renderNavLinks(true)}
+                    {renderNavLinks(true, () => {
+                      // Small hack to close sheet on nav link click
+                      const closeButton = document.querySelector(
+                        "[data-radix-dialog-content] > [data-radix-dialog-close]"
+                      );
+                      if (closeButton instanceof HTMLElement) {
+                        closeButton.click();
+                      }
+                    })}
                   </nav>
-                  <Button asChild className="mt-8">
+                   <Button asChild className="mt-8">
                     <Link href="#contact">Devis Gratuit</Link>
                   </Button>
                 </div>
