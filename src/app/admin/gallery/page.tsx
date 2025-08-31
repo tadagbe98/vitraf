@@ -6,6 +6,8 @@ import { PlusCircle, Trash2 } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { Textarea } from "@/components/ui/textarea";
 
 
 export default function AdminGalleryPage() {
@@ -17,24 +19,32 @@ export default function AdminGalleryPage() {
           <DialogTrigger asChild>
             <Button>
               <PlusCircle className="mr-2 h-4 w-4" />
-              Ajouter une image
+              Ajouter une réalisation
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="sm:max-w-[525px]">
             <DialogHeader>
               <DialogTitle>Ajouter une nouvelle réalisation</DialogTitle>
               <DialogDescription>
-                Uploadez une image et ajoutez une description pour votre nouvelle réalisation.
+                Uploadez une image et ajoutez les détails de votre nouvelle réalisation.
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
-              <div className="grid w-full max-w-sm items-center gap-1.5">
+              <div className="grid w-full items-center gap-1.5">
                 <Label htmlFor="picture">Image</Label>
                 <Input id="picture" type="file" />
               </div>
-              <div className="grid w-full max-w-sm items-center gap-1.5">
-                <Label htmlFor="alt">Description (pour le référencement)</Label>
-                <Input id="alt" type="text" placeholder="Ex: Fenêtre coulissante dans une villa" />
+              <div className="grid w-full items-center gap-1.5">
+                <Label htmlFor="category">Catégorie</Label>
+                <Input id="category" type="text" placeholder="Ex: Fenêtres" />
+              </div>
+               <div className="grid w-full items-center gap-1.5">
+                <Label htmlFor="alt">Titre (Alt text)</Label>
+                <Input id="alt" type="text" placeholder="Ex: Fenêtre coulissante" />
+              </div>
+              <div className="grid w-full items-center gap-1.5">
+                <Label htmlFor="description">Description</Label>
+                <Textarea id="description" placeholder="Ex: Fenêtre coulissante pour villa moderne." />
               </div>
             </div>
             <DialogFooter>
@@ -57,7 +67,12 @@ export default function AdminGalleryPage() {
                 data-ai-hint={image.aiHint}
               />
             </CardContent>
-            <CardFooter className="p-2 flex justify-end">
+            <CardHeader className="p-4">
+              <CardTitle className="text-base">{image.alt}</CardTitle>
+              <Badge variant="outline" className="w-fit mt-1">{image.category}</Badge>
+              <CardDescription className="text-xs pt-2">{image.description}</CardDescription>
+            </CardHeader>
+            <CardFooter className="p-4 pt-0 flex justify-end">
                 <Button variant="destructive" size="icon">
                     <Trash2 className="h-4 w-4" />
                     <span className="sr-only">Supprimer</span>

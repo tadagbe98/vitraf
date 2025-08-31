@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Building2, DoorOpen, Phone, RectangleHorizontal, MapPin } from 'lucide-react';
 import { galleryImages } from '@/lib/data';
 import { ContactForm } from '@/components/contact-form';
+import { Badge } from '@/components/ui/badge';
 
 export default function Home() {
   return (
@@ -97,7 +98,11 @@ export default function Home() {
                     className="h-full w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
                     data-ai-hint={image.aiHint}
                   />
-                  <div className="absolute inset-0 bg-black/20" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                    <Badge variant="secondary" className="mb-2">{image.category}</Badge>
+                    <p className="font-semibold text-sm">{image.description}</p>
+                  </div>
                 </div>
               ))}
             </div>
