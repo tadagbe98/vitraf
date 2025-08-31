@@ -23,6 +23,13 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
+    // Allow data URIs for Base64 images from Firestore
+    unoptimized: true,
+  },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '4mb',
+    },
   },
 };
 

@@ -3,11 +3,13 @@ import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Building2, DoorOpen, Phone, RectangleHorizontal, MapPin } from 'lucide-react';
-import { galleryImages } from '@/lib/data';
+import { getGalleryImages } from '@/lib/actions';
 import { ContactForm } from '@/components/contact-form';
 import { Badge } from '@/components/ui/badge';
 
-export default function Home() {
+export default async function Home() {
+  const galleryImages = await getGalleryImages();
+  
   return (
     <div className="flex flex-col min-h-[100dvh]">
       <main className="flex-1">
@@ -88,7 +90,7 @@ export default function Home() {
               </p>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-12">
-              {galleryImages.slice(0, 8).map((image) => (
+              {galleryImages.slice(0, 8).map((image: any) => (
                 <div key={image.id} className="group relative overflow-hidden rounded-lg">
                   <Image
                     src={image.src}
