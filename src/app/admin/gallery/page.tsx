@@ -67,8 +67,8 @@ export default function AdminGalleryPage() {
     const file = fileInput.files?.[0];
 
     if (file) {
-        if (file.size > 4 * 1024 * 1024) { // 4MB limit
-            toast({ variant: "destructive", title: "Erreur", description: "Le fichier est trop volumineux. La taille maximale est de 4 Mo." });
+        if (file.size > 8 * 1024 * 1024) { // 8MB limit
+            toast({ variant: "destructive", title: "Erreur", description: "Le fichier est trop volumineux. La taille maximale est de 8 Mo." });
             setIsSubmitting(false);
             return;
         }
@@ -91,11 +91,12 @@ export default function AdminGalleryPage() {
                   fetchImages();
                   setDialogOpen(false);
                 } else {
-                   const errorMessages = result.errors ? Object.values(result.errors).map(fieldErrors => fieldErrors?._errors.join(', ')).join(' ') : "Erreur inconnue.";
+                   const errorMessages = result.errors ? Object.entries(result.errors).map(([field, fieldErrors]) => `${field}: ${fieldErrors._errors.join(', ')}`).join('; ') : "Erreur inconnue.";
                    toast({ variant: "destructive", title: "Erreur de validation", description: errorMessages });
                 }
             } catch (error) {
-                toast({ variant: "destructive", title: "Erreur", description: "Impossible d'ajouter la réalisation." });
+                toast({ variant: "destructive", title: "Erreur", description: "Impossible d'ajouter la réalisation. Vérifiez la console pour plus de détails." });
+                 console.error(error);
             } finally {
                 setIsSubmitting(false);
             }
@@ -127,7 +128,7 @@ export default function AdminGalleryPage() {
             <DialogHeader>
               <DialogTitle>Ajouter une nouvelle réalisation</DialogTitle>
               <DialogDescription>
-                Uploadez une image et ajoutez les détails de votre nouvelle réalisation. Taille max: 4Mo.
+                Uploadez une image et ajoutez les détails de votre nouvelle réalisation. Taille max: 8Mo.
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit}>
