@@ -15,7 +15,7 @@ export default async function Home() {
       <main className="flex-1">
         <section id="hero" className="relative h-[80vh] w-full">
           <Image
-            src="https://picsum.photos/seed/hero/1920/1080"
+            src="/carou.jpg"
             alt="Chantier de menuiserie aluminium"
             fill
             className="object-cover"
@@ -160,7 +160,7 @@ export default async function Home() {
                   </div>
                 </div>
                 <div className="h-64 w-full rounded-lg bg-muted overflow-hidden">
-                   <Image src="https://picsum.photos/seed/map/600/400" alt="Carte de localisation de l'atelier à Abidjan" className="h-full w-full object-cover" width={600} height={400} data-ai-hint="map abidjan" />
+                   <Image src="/rea.jpeg" alt="Carte de localisation de l'atelier à Abidjan" className="h-full w-full object-cover" width={600} height={400} data-ai-hint="map abidjan" />
                 </div>
               </div>
               <div>
