@@ -13,12 +13,12 @@ export default function Home() {
       <main className="flex-1">
         <section id="hero" className="relative h-[80vh] w-full">
           <Image
-            src="https://picsum.photos/1920/1080"
+            src="https://picsum.photos/seed/hero/1920/1080"
             alt="Chantier de menuiserie aluminium"
             fill
             className="object-cover"
             priority
-            data-ai-hint="construction building"
+            data-ai-hint="modern architecture window"
           />
           <div className="absolute inset-0 bg-black/50" />
           <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-primary-foreground">
@@ -123,11 +123,11 @@ export default function Home() {
               </div>
               <div className="relative h-80 w-full overflow-hidden rounded-lg">
                 <Image
-                  src="https://picsum.photos/600/400"
-                  alt="Portrait de Fidèle Alu"
+                  src="https://picsum.photos/seed/worker/600/400"
+                  alt="Artisan menuisier travaillant sur un cadre en aluminium"
                   className="object-cover"
                   fill
-                  data-ai-hint="portrait professional"
+                  data-ai-hint="craftsman workshop"
                 />
               </div>
             </div>
@@ -158,7 +158,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="h-64 w-full rounded-lg bg-muted overflow-hidden">
-                   <Image src="https://picsum.photos/600/400" alt="Map" className="h-full w-full object-cover" width={600} height={400} data-ai-hint="map location" />
+                   <Image src="https://picsum.photos/seed/map/600/400" alt="Carte de localisation de l'atelier à Abidjan" className="h-full w-full object-cover" width={600} height={400} data-ai-hint="map abidjan" />
                 </div>
               </div>
               <div>
