@@ -37,7 +37,7 @@ export default function AdminGalleryPage() {
       setImages(fetchedImages as GalleryImage[]);
     } catch (error) {
       console.error("Failed to fetch gallery images:", error);
-      toast({ variant: "destructive", title: "Erreur", description: "Impossible de charger les images de la galerie." });
+      toast({ variant: "destructive", title: "Erreur", description: "Impossible de charger les images. Vérifiez vos règles de sécurité Firestore." });
     } finally {
       setLoading(false);
     }
@@ -67,6 +67,11 @@ export default function AdminGalleryPage() {
     const file = fileInput.files?.[0];
 
     if (file) {
+        if (file.size > 4 * 1024 * 1024) { // 4MB limit
+            toast({ variant: "destructive", title: "Erreur", description: "Le fichier est trop volumineux. La taille maximale est de 4 Mo." });
+            setIsSubmitting(false);
+            return;
+        }
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = async () => {
@@ -122,7 +127,7 @@ export default function AdminGalleryPage() {
             <DialogHeader>
               <DialogTitle>Ajouter une nouvelle réalisation</DialogTitle>
               <DialogDescription>
-                Uploadez une image et ajoutez les détails de votre nouvelle réalisation.
+                Uploadez une image et ajoutez les détails de votre nouvelle réalisation. Taille max: 4Mo.
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit}>

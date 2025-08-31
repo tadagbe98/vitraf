@@ -36,7 +36,7 @@ export default function AdminShopPage() {
       setItems(fetchedItems as ShopItem[]);
     } catch (error) {
       console.error("Failed to fetch shop items:", error);
-      toast({ variant: "destructive", title: "Erreur", description: "Impossible de charger les articles." });
+      toast({ variant: "destructive", title: "Erreur", description: "Impossible de charger les articles. Vérifiez vos règles de sécurité Firestore." });
     } finally {
       setLoading(false);
     }
@@ -66,6 +66,11 @@ export default function AdminShopPage() {
     const file = fileInput.files?.[0];
     
     if (file) {
+      if (file.size > 4 * 1024 * 1024) { // 4MB limit
+            toast({ variant: "destructive", title: "Erreur", description: "Le fichier est trop volumineux. La taille maximale est de 4 Mo." });
+            setIsSubmitting(false);
+            return;
+        }
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = async () => {
@@ -119,7 +124,7 @@ export default function AdminShopPage() {
             <DialogHeader>
               <DialogTitle>Ajouter un nouvel article</DialogTitle>
               <DialogDescription>
-                Uploadez une image et ajoutez les détails de votre nouvel article.
+                Uploadez une image et ajoutez les détails de votre nouvel article. Taille max: 4Mo.
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit}>
