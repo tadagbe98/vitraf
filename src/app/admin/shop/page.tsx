@@ -31,9 +31,15 @@ export default function AdminShopPage() {
 
   const fetchItems = async () => {
     setLoading(true);
-    const fetchedItems = await getShopItems();
-    setItems(fetchedItems as ShopItem[]);
-    setLoading(false);
+    try {
+      const fetchedItems = await getShopItems();
+      setItems(fetchedItems as ShopItem[]);
+    } catch (error) {
+      console.error("Failed to fetch shop items:", error);
+      toast({ variant: "destructive", title: "Erreur", description: "Impossible de charger les articles." });
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -56,23 +62,31 @@ export default function AdminShopPage() {
     const formData = new FormData(event.currentTarget);
     const values = Object.fromEntries(formData.entries());
 
-    const file = (event.currentTarget.elements.namedItem('picture') as HTMLInputElement).files?.[0];
+    const fileInput = event.currentTarget.elements.namedItem('picture') as HTMLInputElement;
+    const file = fileInput.files?.[0];
+    
     if (file) {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = async () => {
         const base64Src = reader.result as string;
         const itemData = {
-          ...values,
-          src: base64Src,
+          name: values.name as string,
           price: Number(values.price),
+          description: values.description as string,
+          src: base64Src,
           aiHint: "custom item"
         };
         try {
-          await addShopItem(itemData as any);
-          toast({ title: "Succès", description: "Article ajouté." });
-          fetchItems();
-          setDialogOpen(false);
+          const result = await addShopItem(itemData);
+          if (result.success) {
+            toast({ title: "Succès", description: "Article ajouté." });
+            fetchItems();
+            setDialogOpen(false);
+          } else {
+             const errorMessages = result.errors ? Object.values(result.errors).map(fieldErrors => fieldErrors?._errors.join(', ')).join(' ') : "Erreur inconnue.";
+             toast({ variant: "destructive", title: "Erreur de validation", description: errorMessages });
+          }
         } catch (error) {
           toast({ variant: "destructive", title: "Erreur", description: "Impossible d'ajouter l'article." });
         } finally {

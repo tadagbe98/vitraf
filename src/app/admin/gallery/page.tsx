@@ -32,9 +32,15 @@ export default function AdminGalleryPage() {
 
   const fetchImages = async () => {
     setLoading(true);
-    const fetchedImages = await getGalleryImages();
-    setImages(fetchedImages as GalleryImage[]);
-    setLoading(false);
+    try {
+      const fetchedImages = await getGalleryImages();
+      setImages(fetchedImages as GalleryImage[]);
+    } catch (error) {
+      console.error("Failed to fetch gallery images:", error);
+      toast({ variant: "destructive", title: "Erreur", description: "Impossible de charger les images de la galerie." });
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -51,41 +57,38 @@ export default function AdminGalleryPage() {
     }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, setFieldValue: (field: string, value: any) => void) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFieldValue("src", reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitting(true);
     const formData = new FormData(event.currentTarget);
     const values = Object.fromEntries(formData.entries());
     
-    // Convert file to base64
-    const file = (event.currentTarget.elements.namedItem('picture') as HTMLInputElement).files?.[0];
+    const fileInput = event.currentTarget.elements.namedItem('picture') as HTMLInputElement;
+    const file = fileInput.files?.[0];
+
     if (file) {
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = async () => {
             const base64Src = reader.result as string;
             const itemData = {
-                ...values,
+                alt: values.alt as string,
+                category: values.category as string,
+                description: values.description as string,
                 src: base64Src,
                 aiHint: "custom image"
             };
 
             try {
-                await addGalleryItem(itemData as any);
-                toast({ title: "Succès", description: "Réalisation ajoutée." });
-                fetchImages();
-                setDialogOpen(false);
+                const result = await addGalleryItem(itemData);
+                if (result.success) {
+                  toast({ title: "Succès", description: "Réalisation ajoutée." });
+                  fetchImages();
+                  setDialogOpen(false);
+                } else {
+                   const errorMessages = result.errors ? Object.values(result.errors).map(fieldErrors => fieldErrors?._errors.join(', ')).join(' ') : "Erreur inconnue.";
+                   toast({ variant: "destructive", title: "Erreur de validation", description: errorMessages });
+                }
             } catch (error) {
                 toast({ variant: "destructive", title: "Erreur", description: "Impossible d'ajouter la réalisation." });
             } finally {
