@@ -11,7 +11,7 @@ type Message = {
   name: string;
   contact: string;
   location: string;
-  message: string;
+  work: string;
   date: Date;
 };
 
@@ -73,7 +73,7 @@ export default function AdminMessagesPage() {
                     <TableCell className="font-medium">{msg.name}</TableCell>
                     <TableCell>{msg.contact}</TableCell>
                     <TableCell>{msg.location}</TableCell>
-                    <TableCell>{msg.message}</TableCell>
+                    <TableCell>{msg.work}</TableCell>
                   </TableRow>
                 ))
               ) : (
