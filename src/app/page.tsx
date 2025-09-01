@@ -183,7 +183,7 @@ export default function Home() {
               <div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-headline">À Propos de Nous</h2>
                 <p className="mt-4 text-muted-foreground">
-                  Fondée par <span className="font-semibold text-primary">Fidèle Alu</span>, un passionné avec des années d'expérience, Vitraf Alu est une entreprise dédiée à la fourniture de solutions de menuiserie aluminium de première qualité. Notre mission est de combiner l'artisanat traditionnel avec les technologies modernes pour créer des produits durables, fonctionnels et esthétiquement agréables.
+                  Fondée par <span className="font-semibold text-primary">Fidèl AHOUANDJINOU</span>, un passionné avec des années d'expérience, Vitraf Alu est une entreprise dédiée à la fourniture de solutions de menuiserie aluminium de première qualité. Notre mission est de combiner l'artisanat traditionnel avec les technologies modernes pour créer des produits durables, fonctionnels et esthétiquement agréables.
                 </p>
                 <p className="mt-4 text-muted-foreground">
                   Nous sommes basés à Bingerville, Abidjan, et nous sommes fiers de servir notre communauté avec intégrité et professionnalisme.

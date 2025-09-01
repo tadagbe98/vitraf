@@ -11,7 +11,7 @@ export default function Footer() {
           <p className="text-sm">
             Expert en menuiserie aluminium, Vitraf Alu vous apporte des solutions durables et esthétiques.
           </p>
-          <p className="text-sm">Promoteur: <span className="font-semibold">Fidèle Alu</span></p>
+          <p className="text-sm">Promoteur: <span className="font-semibold">Fidèl AHOUANDJINOU</span></p>
         </div>
         <div>
           <h3 className="text-lg font-semibold">Navigation</h3>

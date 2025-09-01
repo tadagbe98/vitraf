@@ -28,7 +28,7 @@ export default function AdminDashboardPage() {
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-bold">Tableau de bord</h1>
-      <p className="text-muted-foreground">Bienvenue, Fidèle Alu. Voici un aperçu de votre site.</p>
+      <p className="text-muted-foreground">Bienvenue, Fidèl AHOUANDJINOU. Voici un aperçu de votre site.</p>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
