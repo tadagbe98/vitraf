@@ -13,10 +13,11 @@ import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/hooks/use-cart";
 import type { ShopItem } from "@/hooks/use-cart";
 import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-
+import { Badge } from "@/components/ui/badge";
 
 export default function ShopPage() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("Toutes");
   const [items, setItems] = useState<ShopItem[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
@@ -40,9 +41,15 @@ export default function ShopPage() {
     });
   };
 
-  const filteredItems = items.filter((item) =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const categories = ["Toutes", ...Array.from(new Set(items.map((item) => item.category)))];
+
+  const filteredItems = items
+    .filter((item) =>
+      item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .filter((item) =>
+      selectedCategory === "Toutes" ? true : item.category === selectedCategory
+    );
 
   return (
     <div className="container mx-auto px-4 md:px-6 py-12 md:py-24">
@@ -67,6 +74,21 @@ export default function ShopPage() {
           />
         </div>
       </div>
+      
+      {!loading && items.length > 0 && (
+         <div className="flex justify-center flex-wrap gap-2 mb-8">
+            {categories.map((category) => (
+                <Button
+                key={category}
+                variant={selectedCategory === category ? "default" : "outline"}
+                onClick={() => setSelectedCategory(category)}
+                >
+                {category}
+                </Button>
+            ))}
+        </div>
+      )}
+
 
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -114,7 +136,8 @@ export default function ShopPage() {
                 </Dialog>
                 <CardContent className="p-4 flex flex-col flex-1">
                   <CardTitle className="text-lg mb-1">{item.name}</CardTitle>
-                  <CardDescription className="text-sm min-h-[40px] flex-grow whitespace-pre-wrap">{item.description}</CardDescription>
+                  <Badge variant="secondary">{item.category}</Badge>
+                  <CardDescription className="text-sm min-h-[40px] flex-grow whitespace-pre-wrap pt-2">{item.description}</CardDescription>
                   <p className="text-xl font-bold text-primary my-2">
                     {item.price.toLocaleString("fr-FR")} XOF
                   </p>
@@ -128,7 +151,7 @@ export default function ShopPage() {
           </div>
           {filteredItems.length === 0 && (
             <div className="text-center py-16 text-muted-foreground">
-              <p>Aucun article ne correspond à votre recherche.</p>
+              <p>Aucun article ne correspond à votre recherche ou à cette catégorie.</p>
             </div>
           )}
         </>
@@ -136,4 +159,3 @@ export default function ShopPage() {
     </div>
   );
 }
-

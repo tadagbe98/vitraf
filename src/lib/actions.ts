@@ -50,6 +50,7 @@ const shopItemSchema = z.object({
     name: z.string().min(3, "Le nom est requis."),
     price: z.coerce.number().positive("Le prix doit être un nombre positif."),
     description: z.string().min(5, "La description est requise."),
+    category: z.string().min(2, "La catégorie est requise."),
     aiHint: z.string().optional(),
 });
 

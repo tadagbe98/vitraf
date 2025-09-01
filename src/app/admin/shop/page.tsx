@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge";
 
 type ShopItem = {
   id: string;
@@ -20,6 +21,7 @@ type ShopItem = {
   name: string;
   price: number;
   description: string;
+  category: string;
   aiHint?: string;
 };
 
@@ -83,6 +85,7 @@ export default function AdminShopPage() {
         name: values.name as string,
         price: Number(values.price),
         description: values.description as string,
+        category: values.category as string,
         src: base64Src || editingItem?.src,
         aiHint: "custom item"
       };
@@ -164,6 +167,10 @@ export default function AdminShopPage() {
                   <Label htmlFor="name">Nom de l'article</Label>
                   <Input id="name" name="name" type="text" placeholder="Ex: Charnière" required defaultValue={editingItem?.name} />
                 </div>
+                 <div className="grid w-full items-center gap-1.5">
+                  <Label htmlFor="category">Catégorie</Label>
+                  <Input id="category" name="category" type="text" placeholder="Ex: Portes" required defaultValue={editingItem?.category} />
+                </div>
                 <div className="grid w-full items-center gap-1.5">
                   <Label htmlFor="price">Prix (XOF)</Label>
                   <Input id="price" name="price" type="number" placeholder="Ex: 5000" required defaultValue={editingItem?.price} />
@@ -193,7 +200,7 @@ export default function AdminShopPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {items.map((item) => (
-            <Card key={item.id}>
+            <Card key={item.id} className="flex flex-col">
               <CardContent className="p-0">
                 <Image
                   src={item.src}
@@ -204,9 +211,10 @@ export default function AdminShopPage() {
                   data-ai-hint={item.aiHint}
                 />
               </CardContent>
-              <CardHeader className="p-4">
+              <CardHeader className="p-4 flex-1">
                 <CardTitle className="text-base">{item.name}</CardTitle>
-                <p className="font-semibold text-primary">{item.price.toLocaleString("fr-FR")} XOF</p>
+                 <Badge variant="outline" className="w-fit mt-1">{item.category}</Badge>
+                <p className="font-semibold text-primary mt-2">{item.price.toLocaleString("fr-FR")} XOF</p>
                 <CardDescription className="text-xs pt-2 whitespace-pre-wrap">{item.description}</CardDescription>
               </CardHeader>
               <CardFooter className="p-4 pt-0 flex justify-end gap-2">
@@ -226,4 +234,3 @@ export default function AdminShopPage() {
     </div>
   );
 }
-

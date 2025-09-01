@@ -1,3 +1,4 @@
+
 "use client";
 
 import { createContext, useContext, useState, useEffect } from 'react';
@@ -9,6 +10,7 @@ export type ShopItem = {
   name: string;
   price: number;
   description: string;
+  category: string;
   aiHint?: string;
 };
 
