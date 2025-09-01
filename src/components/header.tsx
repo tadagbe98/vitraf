@@ -55,9 +55,9 @@ export default function Header() {
 
           <div className="relative">
             <Button variant="outline" size="icon" asChild className={cn(isAnimating && "animate-shake")}>
-              <Link href="/cart">
+               <Link href="/cart">
                 <ShoppingCart className="h-5 w-5" />
-                 <span className="sr-only">Panier</span>
+                <span className="sr-only">Panier</span>
               </Link>
             </Button>
             {isClient && itemCount > 0 && (
