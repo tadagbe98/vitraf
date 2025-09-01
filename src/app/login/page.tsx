@@ -55,7 +55,7 @@ export default function LoginPage() {
                 <Input 
                   id="email" 
                   type="email" 
-                  placeholder="contact@vitraf-alu.ci" 
+                  placeholder="votre@email.com" 
                   required 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
