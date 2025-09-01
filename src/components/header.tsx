@@ -3,10 +3,12 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle, SheetDescription } from "./ui/sheet";
-import { Menu, Phone } from "lucide-react";
+import { Menu, Phone, ShoppingCart } from "lucide-react";
 import { Logo } from "./logo";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useCart } from "@/hooks/use-cart";
+import { Badge } from "./ui/badge";
 
 const navLinks = [
   { href: "#services", label: "Services" },
@@ -18,6 +20,7 @@ const navLinks = [
 
 export default function Header() {
   const pathname = usePathname();
+  const { itemCount } = useCart();
 
   const renderNavLinks = (isMobile: boolean, onLinkClick?: () => void) => (
     navLinks.map((link) => (
@@ -49,6 +52,17 @@ export default function Header() {
               +225 01 60 32 88 08
             </a>
           </Button>
+
+          <Button variant="outline" size="icon" asChild>
+            <Link href="/cart">
+              <ShoppingCart className="h-5 w-5" />
+              {itemCount > 0 && (
+                <Badge variant="destructive" className="absolute -top-2 -right-2 h-5 w-5 justify-center p-0">{itemCount}</Badge>
+              )}
+              <span className="sr-only">Panier</span>
+            </Link>
+          </Button>
+          
           <Button asChild className="hidden md:flex">
             <Link href="#contact">Devis Gratuit</Link>
           </Button>

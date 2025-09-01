@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
+import { CartProvider } from '@/hooks/use-cart';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
@@ -22,9 +23,11 @@ export default function RootLayout({
   return (
     <html lang="fr" className="!scroll-smooth">
       <body className={cn('min-h-screen bg-background font-sans antialiased', inter.variable)}>
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <CartProvider>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </CartProvider>
         <Toaster />
       </body>
     </html>

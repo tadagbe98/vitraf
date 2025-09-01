@@ -10,21 +10,16 @@ import { Button } from "@/components/ui/button";
 import { ShoppingCart, Search } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
+import { useCart } from "@/hooks/use-cart";
+import type { ShopItem } from "@/hooks/use-cart";
 
-type ShopItem = {
-  id: string;
-  src: string;
-  name: string;
-  price: number;
-  description: string;
-  aiHint?: string;
-};
 
 export default function ShopPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [items, setItems] = useState<ShopItem[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
+  const { addItem } = useCart();
 
   useEffect(() => {
     async function fetchItems() {
@@ -37,9 +32,7 @@ export default function ShopPage() {
   }, []);
 
   const handleAddToCart = (item: ShopItem) => {
-    // In a real app, you'd add this to a state management solution (Context, Redux, etc.)
-    // and likely store it in localStorage.
-    console.log("Added to cart:", item.name);
+    addItem(item);
     toast({
       title: "Ajouté au panier",
       description: `${item.name} a été ajouté à votre panier.`,
