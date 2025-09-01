@@ -10,7 +10,6 @@ export type ShopItem = {
   name: string;
   price: number;
   description: string;
-  category: string;
   aiHint?: string;
 };
 
