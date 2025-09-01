@@ -13,7 +13,7 @@ export default async function Home() {
   return (
     <div className="flex flex-col min-h-[100dvh]">
       <main className="flex-1">
-        <section id="hero" className="relative h-[calc(80vh_-_4rem)] mt-16 w-full">
+        <section id="hero" className="relative h-[calc(80vh_-_4rem)] w-full">
           <Image
             src="/images/carou.jpg"
             alt="Chantier de menuiserie aluminium"
