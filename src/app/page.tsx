@@ -139,7 +139,7 @@ export default function Home() {
                         <div className="p-1">
                           <Dialog>
                             <DialogTrigger asChild>
-                              <div className="group relative overflow-hidden rounded-lg cursor-pointer aspect-[4/3]">
+                              <div className="group relative overflow-hidden rounded-lg cursor-pointer aspect-[2/3]">
                                 <Image
                                   src={image.src}
                                   alt={image.alt}
