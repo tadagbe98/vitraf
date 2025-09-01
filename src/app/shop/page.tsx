@@ -78,13 +78,13 @@ export default function ShopPage() {
       {!loading && items.length > 0 && (
          <div className="flex justify-center flex-wrap gap-2 mb-8">
             {categories.map((category) => (
-                <Button
+              <Button
                 key={category}
                 variant={selectedCategory === category ? "default" : "outline"}
                 onClick={() => setSelectedCategory(category)}
-                >
+              >
                 {category}
-                </Button>
+              </Button>
             ))}
         </div>
       )}
