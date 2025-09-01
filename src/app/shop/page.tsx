@@ -12,6 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/hooks/use-cart";
 import type { ShopItem } from "@/hooks/use-cart";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 
 export default function ShopPage() {
@@ -85,24 +86,37 @@ export default function ShopPage() {
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredItems.map((item) => (
-              <Card key={item.id} className="group overflow-hidden">
-                <CardHeader className="p-0 overflow-hidden">
-                  <Image
-                    src={item.src}
-                    alt={item.name}
-                    width={400}
-                    height={300}
-                    className="aspect-[4/3] w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
-                    data-ai-hint={item.aiHint}
-                  />
-                </CardHeader>
-                <CardContent className="p-4">
+              <Card key={item.id} className="group overflow-hidden flex flex-col">
+                 <Dialog>
+                    <DialogTrigger asChild>
+                        <CardHeader className="p-0 overflow-hidden cursor-pointer">
+                        <Image
+                            src={item.src}
+                            alt={item.name}
+                            width={400}
+                            height={300}
+                            className="aspect-[4/3] w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+                            data-ai-hint={item.aiHint}
+                        />
+                        </CardHeader>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[90vw] md:max-w-[80vw] lg:max-w-[60vw] p-0">
+                        <Image
+                        src={item.src}
+                        alt={item.name}
+                        width={1200}
+                        height={900}
+                        className="w-full h-auto object-contain rounded-lg"
+                        />
+                    </DialogContent>
+                </Dialog>
+                <CardContent className="p-4 flex flex-col flex-1">
                   <CardTitle className="text-lg mb-1">{item.name}</CardTitle>
-                  <CardDescription className="text-sm min-h-[40px]">{item.description}</CardDescription>
+                  <CardDescription className="text-sm min-h-[40px] flex-grow">{item.description}</CardDescription>
                   <p className="text-xl font-bold text-primary my-2">
                     {item.price.toLocaleString("fr-FR")} XOF
                   </p>
-                  <Button className="w-full" onClick={() => handleAddToCart(item)}>
+                  <Button className="w-full mt-auto" onClick={() => handleAddToCart(item)}>
                     <ShoppingCart className="mr-2 h-4 w-4" />
                     Ajouter au panier
                   </Button>

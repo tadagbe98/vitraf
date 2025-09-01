@@ -10,6 +10,7 @@ import { Building2, DoorOpen, Phone, RectangleHorizontal, MapPin, Loader2 } from
 import { getGalleryImages } from '@/lib/actions';
 import { ContactForm } from '@/components/contact-form';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 
 type GalleryImage = {
   id: string;
@@ -128,30 +129,43 @@ export default function Home() {
                 </div>
              ) : (
                 <>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-12">
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-12">
                     {galleryImages.slice(0, visibleImages).map((image) => (
-                        <div key={image.id} className="group relative overflow-hidden rounded-lg">
-                        <Image
+                      <Dialog key={image.id}>
+                        <DialogTrigger asChild>
+                          <div className="group relative overflow-hidden rounded-lg cursor-pointer">
+                            <Image
+                              src={image.src}
+                              alt={image.alt}
+                              width={400}
+                              height={300}
+                              className="h-full w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+                              data-ai-hint={image.aiHint}
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                            <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                              <Badge variant="secondary" className="mb-2">{image.category}</Badge>
+                              <p className="font-semibold text-sm">{image.description}</p>
+                            </div>
+                          </div>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[90vw] md:max-w-[80vw] lg:max-w-[60vw] p-0">
+                          <Image
                             src={image.src}
                             alt={image.alt}
-                            width={400}
-                            height={300}
-                            className="h-full w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
-                            data-ai-hint={image.aiHint}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                        <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                            <Badge variant="secondary" className="mb-2">{image.category}</Badge>
-                            <p className="font-semibold text-sm">{image.description}</p>
-                        </div>
-                        </div>
+                            width={1200}
+                            height={900}
+                            className="w-full h-auto object-contain rounded-lg"
+                          />
+                        </DialogContent>
+                      </Dialog>
                     ))}
-                    </div>
-                    {visibleImages < galleryImages.length && (
-                        <div className="text-center mt-12">
-                            <Button onClick={showMoreImages}>Voir plus de réalisations</Button>
-                        </div>
-                    )}
+                  </div>
+                  {visibleImages < galleryImages.length && (
+                      <div className="text-center mt-12">
+                          <Button onClick={showMoreImages}>Voir plus de réalisations</Button>
+                      </div>
+                  )}
                 </>
              )}
           </div>
