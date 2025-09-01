@@ -3,6 +3,8 @@
 import * as z from "zod";
 import { db } from "./firebase";
 import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc, serverTimestamp, query, orderBy } from "firebase/firestore";
+import type { CartItem } from "@/hooks/use-cart";
+
 
 // Schema for contact form
 const contactFormSchema = z.object({
@@ -110,4 +112,47 @@ export async function getContactMessages() {
     };
   });
   return messages;
+}
+
+// Schema for Order
+const orderSchema = z.object({
+  customerName: z.string().min(2, "Le nom est requis."),
+  customerPhone: z.string().min(8, "Le numéro de téléphone est requis."),
+  customerAddress: z.string().min(5, "L'adresse est requise."),
+  items: z.array(z.any()), // We'll trust the cartItems structure from the client
+  total: z.number(),
+});
+
+export async function submitOrder(values: z.infer<typeof orderSchema>) {
+  const parsed = orderSchema.safeParse(values);
+
+  if (!parsed.success) {
+    return { success: false, errors: parsed.error.format() };
+  }
+
+  try {
+    await addDoc(collection(db, "orders"), {
+      ...parsed.data,
+      date: serverTimestamp(),
+      status: "Nouvelle",
+    });
+    return { success: true, message: "Commande passée avec succès !" };
+  } catch (error) {
+    console.error("Error submitting order: ", error);
+    return { success: false, message: "Une erreur est survenue lors de la commande." };
+  }
+}
+
+export async function getOrders() {
+  const q = query(collection(db, "orders"), orderBy("date", "desc"));
+  const querySnapshot = await getDocs(q);
+  const orders = querySnapshot.docs.map(doc => {
+    const data = doc.data();
+    return {
+      id: doc.id,
+      ...data,
+      date: data.date.toDate(),
+    };
+  });
+  return orders;
 }

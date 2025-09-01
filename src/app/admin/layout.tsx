@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarContent, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { Logo } from "@/components/logo";
-import { Home, Images, MessageSquare, LogOut, ShoppingCart } from "lucide-react";
+import { Home, Images, MessageSquare, LogOut, ShoppingCart, Package } from "lucide-react";
 import Link from "next/link";
 import Footer from "@/components/footer";
 
@@ -39,6 +39,11 @@ export default function AdminLayout({
             <SidebarMenuItem>
               <SidebarMenuButton asChild tooltip="Dashboard">
                 <Link href="/admin"><Home /><span>Dashboard</span></Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+             <SidebarMenuItem>
+              <SidebarMenuButton asChild tooltip="Commandes">
+                <Link href="/admin/orders"><Package /><span>Commandes</span></Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>

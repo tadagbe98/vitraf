@@ -2,23 +2,24 @@
 
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getContactMessages, getGalleryImages, getShopItems } from "@/lib/actions";
-import { Images, MessageSquare, ShoppingCart, Loader2 } from "lucide-react";
+import { getContactMessages, getGalleryImages, getShopItems, getOrders } from "@/lib/actions";
+import { Images, MessageSquare, ShoppingCart, Loader2, Package } from "lucide-react";
 import Link from "next/link";
 
 export default function AdminDashboardPage() {
-    const [stats, setStats] = useState({ messages: 0, gallery: 0, products: 0 });
+    const [stats, setStats] = useState({ messages: 0, gallery: 0, products: 0, orders: 0 });
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function fetchStats() {
             setLoading(true);
-            const [messages, gallery, products] = await Promise.all([
+            const [messages, gallery, products, orders] = await Promise.all([
                 getContactMessages(),
                 getGalleryImages(),
                 getShopItems(),
+                getOrders(),
             ]);
-            setStats({ messages: messages.length, gallery: gallery.length, products: products.length });
+            setStats({ messages: messages.length, gallery: gallery.length, products: products.length, orders: orders.length });
             setLoading(false);
         }
         fetchStats();
@@ -29,8 +30,19 @@ export default function AdminDashboardPage() {
       <h1 className="text-3xl font-bold">Tableau de bord</h1>
       <p className="text-muted-foreground">Bienvenue, Fidèle Alu. Voici un aperçu de votre site.</p>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Commandes</CardTitle>
+                <Package className="h-4 w-4 text-muted-foreground"/>
+            </CardHeader>
+            <CardContent>
+                {loading ? <Loader2 className="h-6 w-6 animate-spin" /> : <div className="text-2xl font-bold">{stats.orders}</div>}
+                <p className="text-xs text-muted-foreground">commandes reçues</p>
+                 <Link href="/admin/orders" className="text-sm font-medium text-primary hover:underline mt-2 inline-block">Voir les commandes</Link>
+            </CardContent>
+        </Card>
+         <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Messages</CardTitle>
                 <MessageSquare className="h-4 w-4 text-muted-foreground"/>

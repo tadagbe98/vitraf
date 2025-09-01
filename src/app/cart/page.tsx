@@ -5,23 +5,54 @@ import Link from "next/link";
 import { useCart } from "@/hooks/use-cart";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Trash2, ShoppingCart, ArrowLeft } from "lucide-react";
+import { Trash2, ShoppingCart, ArrowLeft, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { useState } from "react";
+import { submitOrder } from "@/lib/actions";
 
 export default function CartPage() {
   const { cartItems, removeItem, updateItemQuantity, cartTotal, clearCart } = useCart();
   const { toast } = useToast();
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleCheckout = () => {
-    // This is a placeholder for a real checkout process
-    toast({
-      title: "Fonctionnalité à venir",
-      description: "Le processus de paiement n'est pas encore implémenté.",
-    });
-    // In a real app, you would redirect to a checkout page or connect to a payment gateway.
-    // clearCart(); 
+  const handleCheckout = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+    const formData = new FormData(event.currentTarget);
+    const values = Object.fromEntries(formData.entries());
+
+    const orderData = {
+      customerName: values.name as string,
+      customerPhone: values.phone as string,
+      customerAddress: values.address as string,
+      items: cartItems,
+      total: cartTotal,
+    };
+    
+    try {
+      const result = await submitOrder(orderData);
+      if (result.success) {
+        toast({
+          title: "Commande réussie !",
+          description: "Merci pour votre confiance. Nous vous contacterons bientôt.",
+        });
+        clearCart();
+        setDialogOpen(false);
+      } else {
+        const errorMessages = result.errors ? Object.entries(result.errors).map(([field, fieldErrors]) => `${field}: ${fieldErrors._errors.join(', ')}`).join('; ') : "Erreur inconnue.";
+        toast({ variant: "destructive", title: "Erreur de validation", description: errorMessages });
+      }
+    } catch (error) {
+       toast({ variant: "destructive", title: "Erreur", description: "Impossible de passer la commande." });
+    } finally {
+        setIsSubmitting(false);
+    }
   };
   
   return (
@@ -135,13 +166,50 @@ export default function CartPage() {
                   <span>{cartTotal.toLocaleString("fr-FR")} XOF</span>
                 </div>
               </CardContent>
-              <CardFooter className="flex-col gap-2">
-                <Button className="w-full" onClick={handleCheckout}>
-                  Passer la commande
-                </Button>
-                 <p className="text-xs text-muted-foreground text-center">
-                    Le paiement n'est pas encore disponible. Ceci est une démonstration.
-                </p>
+              <CardFooter>
+                 <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button className="w-full">
+                      Passer la commande
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                      <DialogTitle>Finaliser la commande</DialogTitle>
+                      <DialogDescription>
+                        Veuillez fournir vos informations pour la livraison.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <form onSubmit={handleCheckout}>
+                      <div className="grid gap-4 py-4">
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="name" className="text-right">
+                            Nom
+                          </Label>
+                          <Input id="name" name="name" required className="col-span-3" />
+                        </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="phone" className="text-right">
+                            Téléphone
+                          </Label>
+                          <Input id="phone" name="phone" required className="col-span-3" />
+                        </div>
+                         <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="address" className="text-right">
+                            Adresse
+                          </Label>
+                          <Textarea id="address" name="address" required className="col-span-3" />
+                        </div>
+                      </div>
+                      <DialogFooter>
+                        <Button type="submit" disabled={isSubmitting}>
+                           {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                          Confirmer la commande
+                        </Button>
+                      </DialogFooter>
+                    </form>
+                  </DialogContent>
+                </Dialog>
               </CardFooter>
             </Card>
           </div>
