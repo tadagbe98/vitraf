@@ -13,7 +13,7 @@ export default async function Home() {
   return (
     <div className="flex flex-col min-h-[100dvh]">
       <main className="flex-1">
-        <section id="hero" className="relative h-[calc(80vh_-_4rem)] w-full">
+        <section id="hero" className="relative h-screen w-full">
           <Image
             src="/images/carou.jpg"
             alt="Chantier de menuiserie aluminium"
@@ -159,7 +159,7 @@ export default async function Home() {
                     <p className="text-lg">Bingerville, Abidjan, Côte d'Ivoire</p>
                   </div>
                 </div>
-                <div className="h-64 w-full rounded-lg bg-muted overflow-hidden">
+                <div className="h-96 w-full rounded-lg bg-muted overflow-hidden">
                    <Image src="/images/contact.jpg" alt="Carte de localisation de l'atelier à Abidjan" className="h-full w-full object-cover" width={600} height={400} data-ai-hint="map abidjan" />
                 </div>
               </div>
