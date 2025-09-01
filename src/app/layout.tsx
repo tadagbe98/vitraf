@@ -22,10 +22,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className="!scroll-smooth">
-      <body className={cn('min-h-screen bg-background font-sans antialiased', inter.variable)}>
+      <body className={cn('min-h-screen bg-background font-sans antialiased flex flex-col', inter.variable)}>
         <CartProvider>
           <Header />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 flex flex-col">{children}</main>
           <Footer />
         </CartProvider>
         <Toaster />

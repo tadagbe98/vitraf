@@ -7,7 +7,6 @@ import { SidebarProvider, Sidebar, SidebarHeader, SidebarMenu, SidebarMenuItem, 
 import { Logo } from "@/components/logo";
 import { Home, Images, MessageSquare, LogOut, ShoppingCart, Package } from "lucide-react";
 import Link from "next/link";
-import Footer from "@/components/footer";
 
 export default function AdminLayout({
   children,
@@ -70,14 +69,13 @@ export default function AdminLayout({
         </SidebarContent>
       </Sidebar>
       <SidebarInset>
-         <div className="flex flex-col min-h-screen">
+         <div className="flex flex-col min-h-[calc(100vh_-_theme(spacing.16))]">
             <main className="flex-1 p-4 sm:p-6 lg:p-8">
                  <div className="md:hidden mb-4">
                     <SidebarTrigger/>
                 </div>
                 {children}
             </main>
-            <Footer />
         </div>
       </SidebarInset>
     </SidebarProvider>
