@@ -123,7 +123,7 @@ export default async function Home() {
                   Nous sommes basés à Bingerville, Abidjan, et nous sommes fiers de servir notre communauté avec intégrité et professionnalisme.
                 </p>
               </div>
-              <div className="relative h-[650px] w-full overflow-hidden rounded-lg">
+              <div className="relative h-[800px] w-full overflow-hidden rounded-lg">
                 <Image
                   src="/images/apropos.jpg"
                   alt="Artisan menuisier travaillant sur un cadre en aluminium"
@@ -159,7 +159,7 @@ export default async function Home() {
                     <p className="text-lg">Bingerville, Abidjan, Côte d'Ivoire</p>
                   </div>
                 </div>
-                <div className="h-96 w-full rounded-lg bg-muted overflow-hidden">
+                <div className="h-[600px] w-full rounded-lg bg-muted overflow-hidden">
                    <Image src="/images/contact.jpg" alt="Carte de localisation de l'atelier à Abidjan" className="h-full w-full object-cover" width={600} height={400} data-ai-hint="map abidjan" />
                 </div>
               </div>

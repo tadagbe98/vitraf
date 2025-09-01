@@ -9,6 +9,7 @@ import { getShopItems } from "@/lib/actions";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, Search } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useToast } from "@/hooks/use-toast";
 
 type ShopItem = {
   id: string;
@@ -23,6 +24,7 @@ export default function ShopPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [items, setItems] = useState<ShopItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
 
   useEffect(() => {
     async function fetchItems() {
@@ -33,6 +35,16 @@ export default function ShopPage() {
     }
     fetchItems();
   }, []);
+
+  const handleAddToCart = (item: ShopItem) => {
+    // In a real app, you'd add this to a state management solution (Context, Redux, etc.)
+    // and likely store it in localStorage.
+    console.log("Added to cart:", item.name);
+    toast({
+      title: "Ajouté au panier",
+      description: `${item.name} a été ajouté à votre panier.`,
+    });
+  };
 
   const filteredItems = items.filter((item) =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -80,14 +92,14 @@ export default function ShopPage() {
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredItems.map((item) => (
-              <Card key={item.id} className="overflow-hidden">
-                <CardHeader className="p-0">
+              <Card key={item.id} className="group overflow-hidden">
+                <CardHeader className="p-0 overflow-hidden">
                   <Image
                     src={item.src}
                     alt={item.name}
                     width={400}
                     height={300}
-                    className="aspect-[4/3] w-full object-cover"
+                    className="aspect-[4/3] w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
                     data-ai-hint={item.aiHint}
                   />
                 </CardHeader>
@@ -97,7 +109,7 @@ export default function ShopPage() {
                   <p className="text-xl font-bold text-primary my-2">
                     {item.price.toLocaleString("fr-FR")} XOF
                   </p>
-                  <Button className="w-full">
+                  <Button className="w-full" onClick={() => handleAddToCart(item)}>
                     <ShoppingCart className="mr-2 h-4 w-4" />
                     Ajouter au panier
                   </Button>
