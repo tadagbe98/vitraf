@@ -114,7 +114,7 @@ export default function ShopPage() {
                 </Dialog>
                 <CardContent className="p-4 flex flex-col flex-1">
                   <CardTitle className="text-lg mb-1">{item.name}</CardTitle>
-                  <CardDescription className="text-sm min-h-[40px] flex-grow">{item.description}</CardDescription>
+                  <CardDescription className="text-sm min-h-[40px] flex-grow whitespace-pre-wrap">{item.description}</CardDescription>
                   <p className="text-xl font-bold text-primary my-2">
                     {item.price.toLocaleString("fr-FR")} XOF
                   </p>
@@ -136,3 +136,4 @@ export default function ShopPage() {
     </div>
   );
 }
+

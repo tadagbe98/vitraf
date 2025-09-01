@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -184,7 +185,7 @@ export default function AdminGalleryPage() {
               <CardHeader className="p-4">
                 <CardTitle className="text-base">{image.alt}</CardTitle>
                 <Badge variant="outline" className="w-fit mt-1">{image.category}</Badge>
-                <CardDescription className="text-xs pt-2">{image.description}</CardDescription>
+                <CardDescription className="text-xs pt-2 whitespace-pre-wrap">{image.description}</CardDescription>
               </CardHeader>
               <CardFooter className="p-4 pt-0 flex justify-end">
                 <Button variant="destructive" size="icon" onClick={() => handleDelete(image.id)}>
@@ -199,3 +200,4 @@ export default function AdminGalleryPage() {
     </div>
   );
 }
+

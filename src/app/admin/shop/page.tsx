@@ -207,7 +207,7 @@ export default function AdminShopPage() {
               <CardHeader className="p-4">
                 <CardTitle className="text-base">{item.name}</CardTitle>
                 <p className="font-semibold text-primary">{item.price.toLocaleString("fr-FR")} XOF</p>
-                <CardDescription className="text-xs pt-2">{item.description}</CardDescription>
+                <CardDescription className="text-xs pt-2 whitespace-pre-wrap">{item.description}</CardDescription>
               </CardHeader>
               <CardFooter className="p-4 pt-0 flex justify-end gap-2">
                  <Button variant="outline" size="icon" onClick={() => handleOpenDialog(item)}>
@@ -226,3 +226,4 @@ export default function AdminShopPage() {
     </div>
   );
 }
+
