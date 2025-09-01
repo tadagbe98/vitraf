@@ -26,6 +26,7 @@ interface CartContextType {
   clearCart: () => void;
   itemCount: number;
   cartTotal: number;
+  isAnimating: boolean;
 }
 
 // Create the context with a default undefined value
@@ -34,6 +35,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 // CartProvider component to wrap around the application
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   // Load cart from localStorage on initial render
   useEffect(() => {
@@ -65,6 +67,11 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         return [...prevItems, { ...item, quantity: 1 }];
       }
     });
+    
+    // Trigger animation
+    setIsAnimating(true);
+    const timer = setTimeout(() => setIsAnimating(false), 500); // Duration should match animation
+    return () => clearTimeout(timer);
   };
 
   const removeItem = (itemId: string) => {
@@ -91,7 +98,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const cartTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ cartItems, addItem, removeItem, updateItemQuantity, clearCart, itemCount, cartTotal }}>
+    <CartContext.Provider value={{ cartItems, addItem, removeItem, updateItemQuantity, clearCart, itemCount, cartTotal, isAnimating }}>
       {children}
     </CartContext.Provider>
   );
