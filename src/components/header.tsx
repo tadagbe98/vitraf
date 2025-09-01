@@ -10,6 +10,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/hooks/use-cart";
 import { Badge } from "./ui/badge";
+import { useState, useEffect } from "react";
 
 const navLinks = [
   { href: "#services", label: "Services" },
@@ -21,7 +22,12 @@ const navLinks = [
 
 export default function Header() {
   const pathname = usePathname();
-  const { itemCount, isAnimating, isClient } = useCart();
+  const { itemCount, isAnimating } = useCart();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const renderNavLinks = (isMobile: boolean, onLinkClick?: () => void) => (
     navLinks.map((link) => (
