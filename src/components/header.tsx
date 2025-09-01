@@ -53,8 +53,8 @@ export default function Header() {
             </a>
           </Button>
 
-          <div className="relative">
-            <Button variant="outline" size="icon" asChild className={cn(isAnimating && "animate-shake")}>
+           <div className="relative">
+             <Button variant="outline" size="icon" asChild className={cn(isAnimating && "animate-shake")}>
                <Link href="/cart">
                 <ShoppingCart className="h-5 w-5" />
                 <span className="sr-only">Panier</span>
