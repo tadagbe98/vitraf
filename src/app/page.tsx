@@ -11,6 +11,8 @@ import { getGalleryImages } from '@/lib/actions';
 import { ContactForm } from '@/components/contact-form';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+
 
 type GalleryImage = {
   id: string;
@@ -24,7 +26,6 @@ type GalleryImage = {
 export default function Home() {
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
-  const [visibleImages, setVisibleImages] = useState(8);
 
   useEffect(() => {
     async function loadImages() {
@@ -40,9 +41,6 @@ export default function Home() {
     loadImages();
   }, []);
 
-  const showMoreImages = () => {
-    setVisibleImages(galleryImages.length);
-  };
   
   return (
     <div className="flex flex-col min-h-[100dvh]">
@@ -128,47 +126,53 @@ export default function Home() {
                     <Loader2 className="h-8 w-8 animate-spin mx-auto text-primary" />
                 </div>
              ) : (
-                <>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-12">
-                    {galleryImages.slice(0, visibleImages).map((image) => (
-                      <Dialog key={image.id}>
-                        <DialogTrigger asChild>
-                          <div className="group relative overflow-hidden rounded-lg cursor-pointer">
-                            <Image
-                              src={image.src}
-                              alt={image.alt}
-                              width={400}
-                              height={300}
-                              className="h-full w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
-                              data-ai-hint={image.aiHint}
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                            <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                              <Badge variant="secondary" className="mb-2">{image.category}</Badge>
-                              <p className="font-semibold text-sm whitespace-pre-wrap">{image.description}</p>
-                            </div>
-                          </div>
-                        </DialogTrigger>
-                        <DialogContent className="sm:max-w-[90vw] md:max-w-[80vw] lg:max-w-[60vw] p-0">
-                           <DialogTitle className="sr-only">{image.alt}</DialogTitle>
-                           <DialogDescription className="sr-only">{image.description}</DialogDescription>
-                          <Image
-                            src={image.src}
-                            alt={image.alt}
-                            width={1200}
-                            height={900}
-                            className="w-full h-auto object-contain rounded-lg"
-                          />
-                        </DialogContent>
-                      </Dialog>
+                <Carousel
+                  opts={{
+                    align: "start",
+                    loop: true,
+                  }}
+                  className="w-full mt-12"
+                >
+                  <CarouselContent>
+                    {galleryImages.map((image) => (
+                      <CarouselItem key={image.id} className="md:basis-1/2 lg:basis-1/3">
+                        <div className="p-1">
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <div className="group relative overflow-hidden rounded-lg cursor-pointer aspect-video">
+                                <Image
+                                  src={image.src}
+                                  alt={image.alt}
+                                  fill
+                                  className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+                                  data-ai-hint={image.aiHint}
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                                <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                                  <Badge variant="secondary" className="mb-2">{image.category}</Badge>
+                                  <p className="font-semibold text-sm whitespace-pre-wrap">{image.description}</p>
+                                </div>
+                              </div>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-[90vw] md:max-w-[80vw] lg:max-w-[60vw] p-0">
+                               <DialogTitle className="sr-only">{image.alt}</DialogTitle>
+                               <DialogDescription className="sr-only">{image.description}</DialogDescription>
+                              <Image
+                                src={image.src}
+                                alt={image.alt}
+                                width={1200}
+                                height={900}
+                                className="w-full h-auto object-contain rounded-lg"
+                              />
+                            </DialogContent>
+                          </Dialog>
+                        </div>
+                      </CarouselItem>
                     ))}
-                  </div>
-                  {visibleImages < galleryImages.length && (
-                      <div className="text-center mt-12">
-                          <Button onClick={showMoreImages}>Voir plus de réalisations</Button>
-                      </div>
-                  )}
-                </>
+                  </CarouselContent>
+                  <CarouselPrevious className="hidden sm:flex" />
+                  <CarouselNext className="hidden sm:flex" />
+                </Carousel>
              )}
           </div>
         </section>
