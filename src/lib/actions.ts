@@ -1,11 +1,8 @@
 "use server";
 
 import * as z from "zod";
-// This file is now using static data for presentation purposes.
-// The Firebase logic is commented out to ensure stability for demonstrations.
-// import { db } from "./firebase";
-// import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc, serverTimestamp, query, orderBy } from "firebase/firestore";
-import { galleryImages as staticGalleryImages, shopItems as staticShopItems, contactMessages as staticContactMessages } from "./data";
+import { db } from "./firebase";
+import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc, serverTimestamp, query, orderBy } from "firebase/firestore";
 
 // Schema for contact form
 const contactFormSchema = z.object({
@@ -22,9 +19,6 @@ export async function submitContactForm(values: z.infer<typeof contactFormSchema
     return { success: false, message: "Données invalides." };
   }
 
-   console.log("Nouveau message de contact (statique):", parsed.data);
-   return { success: true, message: "Formulaire soumis avec succès ! (Mode démo)" };
-  /*
   try {
     await addDoc(collection(db, "contactMessages"), {
       ...parsed.data,
@@ -35,7 +29,6 @@ export async function submitContactForm(values: z.infer<typeof contactFormSchema
     console.error("Error adding document: ", error);
     return { success: false, message: "Une erreur est survenue." };
   }
-  */
 }
 
 // Schemas for gallery and shop items
@@ -64,12 +57,8 @@ export async function addGalleryItem(values: z.infer<typeof galleryItemSchema>) 
     if (!parsed.success) {
         return { success: false, errors: parsed.error.format() };
     }
-    console.log("Ajout d'une image à la galerie (statique):", parsed.data);
-    return { success: true };
-    /*
     await addDoc(collection(db, "galleryImages"), parsed.data);
     return { success: true };
-    */
 }
 
 export async function addShopItem(values: z.infer<typeof shopItemSchema>) {
@@ -77,58 +66,38 @@ export async function addShopItem(values: z.infer<typeof shopItemSchema>) {
     if (!parsed.success) {
         return { success: false, errors: parsed.error.format() };
     }
-    console.log("Ajout d'un article à la boutique (statique):", parsed.data);
-    return { success: true };
-    /*
     await addDoc(collection(db, "shopItems"), parsed.data);
     return { success: true };
-    */
 }
 
 // Functions to delete items
 export async function deleteGalleryItem(id: string) {
-    console.log("Suppression de l'image de la galerie (statique):", id);
-    return { success: true };
-    /*
     await deleteDoc(doc(db, "galleryImages", id));
     return { success: true };
-    */
 }
 
 export async function deleteShopItem(id: string) {
-    console.log("Suppression de l'article de la boutique (statique):", id);
-    return { success: true };
-    /*
     await deleteDoc(doc(db, "shopItems", id));
     return { success: true };
-    */
 }
 
 
 // Functions to get all items
 export async function getGalleryImages() {
-  return staticGalleryImages;
-  /*
   const q = query(collection(db, "galleryImages"), orderBy("alt"));
   const querySnapshot = await getDocs(q);
   const images = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   return images;
-  */
 }
 
 export async function getShopItems() {
-  return staticShopItems;
-  /*
   const q = query(collection(db, "shopItems"), orderBy("name"));
   const querySnapshot = await getDocs(q);
   const items = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   return items;
-  */
 }
 
 export async function getContactMessages() {
-  return staticContactMessages;
-  /*
   const q = query(collection(db, "contactMessages"), orderBy("date", "desc"));
   const querySnapshot = await getDocs(q);
   const messages = querySnapshot.docs.map(doc => {
@@ -141,5 +110,4 @@ export async function getContactMessages() {
     };
   });
   return messages;
-  */
 }
