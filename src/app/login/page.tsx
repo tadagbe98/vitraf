@@ -18,7 +18,7 @@ export default function LoginPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email === "contact@vitraf-alu.com" && password === "vitrafalu") {
+    if (email === "contact@vitraf-alu.ci" && password === "fidele07") {
       router.push("/admin");
     } else {
       toast({
@@ -47,7 +47,7 @@ export default function LoginPage() {
                 <Input 
                   id="email" 
                   type="email" 
-                  placeholder="contact@vitraf-alu.com" 
+                  placeholder="contact@vitraf-alu.ci" 
                   required 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
