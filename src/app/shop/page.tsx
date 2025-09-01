@@ -12,7 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/hooks/use-cart";
 import type { ShopItem } from "@/hooks/use-cart";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 
 export default function ShopPage() {
@@ -101,6 +101,8 @@ export default function ShopPage() {
                         </CardHeader>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[90vw] md:max-w-[80vw] lg:max-w-[60vw] p-0">
+                        <DialogTitle className="sr-only">{item.name}</DialogTitle>
+                        <DialogDescription className="sr-only">{item.description}</DialogDescription>
                         <Image
                         src={item.src}
                         alt={item.name}

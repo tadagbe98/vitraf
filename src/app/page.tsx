@@ -10,7 +10,7 @@ import { Building2, DoorOpen, Phone, RectangleHorizontal, MapPin, Loader2 } from
 import { getGalleryImages } from '@/lib/actions';
 import { ContactForm } from '@/components/contact-form';
 import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 
 type GalleryImage = {
   id: string;
@@ -150,6 +150,8 @@ export default function Home() {
                           </div>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[90vw] md:max-w-[80vw] lg:max-w-[60vw] p-0">
+                           <DialogTitle className="sr-only">{image.alt}</DialogTitle>
+                           <DialogDescription className="sr-only">{image.description}</DialogDescription>
                           <Image
                             src={image.src}
                             alt={image.alt}
