@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -53,17 +54,19 @@ export default function Header() {
             </a>
           </Button>
 
-           <div className="relative">
-             <Button variant="outline" size="icon" asChild className={cn(isAnimating && "animate-shake")}>
-               <Link href="/cart">
-                <ShoppingCart className="h-5 w-5" />
-                <span className="sr-only">Panier</span>
-              </Link>
-            </Button>
-            {isClient && itemCount > 0 && (
-                <Badge variant="destructive" className="absolute -top-2 -right-2 h-5 w-5 justify-center p-0">{itemCount}</Badge>
-            )}
-          </div>
+           {isClient && (
+             <div className="relative">
+               <Button variant="outline" size="icon" asChild className={cn(isAnimating && "animate-shake")}>
+                 <Link href="/cart">
+                  <ShoppingCart className="h-5 w-5" />
+                  <span className="sr-only">Panier</span>
+                </Link>
+              </Button>
+              {itemCount > 0 && (
+                  <Badge variant="destructive" className="absolute -top-2 -right-2 h-5 w-5 justify-center p-0">{itemCount}</Badge>
+              )}
+            </div>
+           )}
           
           <Button asChild className="hidden md:flex">
             <Link href="#contact">Devis Gratuit</Link>
