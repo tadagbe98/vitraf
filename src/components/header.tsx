@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { useCart } from "@/hooks/use-cart";
 import { Badge } from "./ui/badge";
 import { useState, useEffect } from "react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 
 const navLinks = [
   { href: "#services", label: "Services" },
@@ -53,13 +54,24 @@ export default function Header() {
           {renderNavLinks(false)}
         </nav>
         <div className="flex items-center gap-4 ml-auto">
-          <Button variant="ghost" size="sm" asChild className="hidden sm:flex items-center gap-2">
-            <a href="tel:+2250160328808">
-              <Phone className="h-4 w-4" />
-              +225 01 60 32 88 08
-            </a>
-          </Button>
-
+           <div className="hidden sm:flex items-center gap-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm">
+                  <Phone className="h-4 w-4 mr-2" />
+                  <span>Contactez-nous</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem asChild>
+                   <a href="tel:+2250160328808">+225 01 60 32 88 08</a>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                   <a href="tel:+2250718588156">+225 07 18 58 81 56</a>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
            {isClient && (
              <div className="relative">
                <Button variant="outline" size="icon" asChild className={cn(isAnimating && "animate-shake")}>
@@ -74,9 +86,12 @@ export default function Header() {
             </div>
            )}
           
-          <Button asChild className="hidden md:flex">
-            <Link href="#contact">Devis Gratuit</Link>
-          </Button>
+          {isClient && (
+            <Button asChild className="hidden md:flex">
+              <Link href="#contact">Devis Gratuit</Link>
+            </Button>
+          )}
+
           <div className="md:hidden">
             <Sheet>
               <SheetTrigger asChild>

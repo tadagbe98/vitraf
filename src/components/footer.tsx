@@ -38,13 +38,18 @@ export default function Footer() {
           <div className="mt-4 space-y-4">
             <div className="flex items-start gap-3">
               <MapPin className="h-5 w-5 mt-1 shrink-0" />
-              <span>Bingerville, Abidjan, Côte d'Ivoire</span>
+              <span>Abidjan Bingerville sur la voie de Adjin non loin de la Cité ADDOHA</span>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-start gap-3">
               <Phone className="h-5 w-5 shrink-0" />
-              <a href="tel:+2250160328808" className="hover:text-primary transition-colors">
-                +225 01 60 32 88 08
-              </a>
+              <div className="flex flex-col gap-1">
+                <a href="tel:+2250160328808" className="hover:text-primary transition-colors">
+                  +225 01 60 32 88 08
+                </a>
+                 <a href="tel:+2250718588156" className="hover:text-primary transition-colors">
+                  +225 07 18 58 81 56
+                </a>
+              </div>
             </div>
           </div>
         </div>

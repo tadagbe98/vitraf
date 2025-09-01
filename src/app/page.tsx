@@ -216,13 +216,18 @@ export default function Home() {
                 <div className="space-y-4">
                   <div className="flex items-center gap-4">
                     <Phone className="h-6 w-6 text-primary" />
-                    <a href="tel:+2250160328808" className="text-lg hover:underline">
-                      +225 01 60 32 88 08
-                    </a>
+                    <div className="flex flex-col">
+                      <a href="tel:+2250160328808" className="text-lg hover:underline">
+                        +225 01 60 32 88 08
+                      </a>
+                       <a href="tel:+2250718588156" className="text-lg hover:underline">
+                        +225 07 18 58 81 56
+                      </a>
+                    </div>
                   </div>
                   <div className="flex items-center gap-4">
                     <MapPin className="h-6 w-6 text-primary" />
-                    <p className="text-lg">Bingerville, Abidjan, Côte d'Ivoire</p>
+                    <p className="text-lg">Abidjan Bingerville sur la voie de Adjin non loin de la Cité ADDOHA</p>
                   </div>
                 </div>
                 <div className="h-[600px] w-full rounded-lg bg-muted overflow-hidden">
