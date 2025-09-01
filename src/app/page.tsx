@@ -1,14 +1,47 @@
+
+"use client";
+
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Building2, DoorOpen, Phone, RectangleHorizontal, MapPin } from 'lucide-react';
+import { Building2, DoorOpen, Phone, RectangleHorizontal, MapPin, Loader2 } from 'lucide-react';
 import { getGalleryImages } from '@/lib/actions';
 import { ContactForm } from '@/components/contact-form';
 import { Badge } from '@/components/ui/badge';
 
-export default async function Home() {
-  const galleryImages = await getGalleryImages();
+type GalleryImage = {
+  id: string;
+  src: string;
+  alt: string;
+  category: string;
+  description: string;
+  aiHint?: string;
+};
+
+export default function Home() {
+  const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [visibleImages, setVisibleImages] = useState(8);
+
+  useEffect(() => {
+    async function loadImages() {
+      try {
+        const images = await getGalleryImages();
+        setGalleryImages(images as GalleryImage[]);
+      } catch (error) {
+        console.error("Failed to load gallery images:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadImages();
+  }, []);
+
+  const showMoreImages = () => {
+    setVisibleImages(galleryImages.length);
+  };
   
   return (
     <div className="flex flex-col min-h-[100dvh]">
@@ -89,25 +122,38 @@ export default async function Home() {
                 Découvrez quelques-uns de nos projets terminés. La qualité de notre travail parle d'elle-même.
               </p>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-12">
-              {galleryImages.slice(0, 8).map((image: any) => (
-                <div key={image.id} className="group relative overflow-hidden rounded-lg">
-                  <Image
-                    src={image.src}
-                    alt={image.alt}
-                    width={400}
-                    height={300}
-                    className="h-full w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
-                    data-ai-hint={image.aiHint}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                    <Badge variant="secondary" className="mb-2">{image.category}</Badge>
-                    <p className="font-semibold text-sm">{image.description}</p>
-                  </div>
+             {loading ? (
+                <div className="text-center py-12">
+                    <Loader2 className="h-8 w-8 animate-spin mx-auto text-primary" />
                 </div>
-              ))}
-            </div>
+             ) : (
+                <>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-12">
+                    {galleryImages.slice(0, visibleImages).map((image) => (
+                        <div key={image.id} className="group relative overflow-hidden rounded-lg">
+                        <Image
+                            src={image.src}
+                            alt={image.alt}
+                            width={400}
+                            height={300}
+                            className="h-full w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+                            data-ai-hint={image.aiHint}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                        <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                            <Badge variant="secondary" className="mb-2">{image.category}</Badge>
+                            <p className="font-semibold text-sm">{image.description}</p>
+                        </div>
+                        </div>
+                    ))}
+                    </div>
+                    {visibleImages < galleryImages.length && (
+                        <div className="text-center mt-12">
+                            <Button onClick={showMoreImages}>Voir plus de réalisations</Button>
+                        </div>
+                    )}
+                </>
+             )}
           </div>
         </section>
 
