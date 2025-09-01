@@ -53,7 +53,7 @@ export default function Header() {
             </a>
           </Button>
 
-          <Button variant="outline" size="icon" asChild className={cn(isAnimating && "animate-shake")}>
+          <Button variant="outline" size="icon" asChild className={cn("relative", isAnimating && "animate-shake")}>
             <Link href="/cart">
               <ShoppingCart className="h-5 w-5" />
               {itemCount > 0 && (
