@@ -1,3 +1,4 @@
+
 "use server";
 
 import * as z from "zod";
@@ -52,6 +53,10 @@ const shopItemSchema = z.object({
     aiHint: z.string().optional(),
 });
 
+const shopItemUpdateSchema = shopItemSchema.extend({
+  id: z.string(), // ID is required for updates
+});
+
 
 // Functions to add/update items
 export async function addGalleryItem(values: z.infer<typeof galleryItemSchema>) {
@@ -69,6 +74,20 @@ export async function addShopItem(values: z.infer<typeof shopItemSchema>) {
         return { success: false, errors: parsed.error.format() };
     }
     await addDoc(collection(db, "shopItems"), parsed.data);
+    return { success: true };
+}
+
+export async function updateShopItem(values: z.infer<typeof shopItemUpdateSchema>) {
+    const parsed = shopItemUpdateSchema.safeParse(values);
+    if (!parsed.success) {
+        return { success: false, errors: parsed.error.format() };
+    }
+    const { id, ...itemData } = parsed.data;
+    if (!id) {
+        return { success: false, message: "L'ID de l'article est manquant." };
+    }
+    const itemRef = doc(db, "shopItems", id);
+    await updateDoc(itemRef, itemData);
     return { success: true };
 }
 
@@ -107,7 +126,6 @@ export async function getContactMessages() {
     return {
       id: doc.id,
       ...data,
-      // Convert Firestore Timestamp to JS Date
       date: data.date.toDate(), 
     };
   });
