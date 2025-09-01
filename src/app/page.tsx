@@ -123,7 +123,7 @@ export default async function Home() {
                   Nous sommes basés à Bingerville, Abidjan, et nous sommes fiers de servir notre communauté avec intégrité et professionnalisme.
                 </p>
               </div>
-              <div className="relative h-80 w-full overflow-hidden rounded-lg">
+              <div className="relative h-[450px] w-full overflow-hidden rounded-lg">
                 <Image
                   src="/images/apropos.jpg"
                   alt="Artisan menuisier travaillant sur un cadre en aluminium"
