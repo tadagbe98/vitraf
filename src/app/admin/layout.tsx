@@ -1,14 +1,31 @@
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { SidebarProvider, Sidebar, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarContent, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { Logo } from "@/components/logo";
 import { Home, Images, MessageSquare, LogOut, ShoppingCart } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 
 export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    const isAuthenticated = localStorage.getItem("isAuthenticated");
+    if (isAuthenticated !== "true") {
+      router.push("/login");
+    }
+  }, [router]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("isAuthenticated");
+    router.push("/login");
+  };
+
   return (
     <SidebarProvider>
       <Sidebar>
@@ -38,8 +55,8 @@ export default function AdminLayout({
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip="Déconnexion">
-                <Link href="/"><LogOut /><span>Déconnexion</span></Link>
+              <SidebarMenuButton onClick={handleLogout} asChild tooltip="Déconnexion">
+                <Link href="#"><LogOut /><span>Déconnexion</span></Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>

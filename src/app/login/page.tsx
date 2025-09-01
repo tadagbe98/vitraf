@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,9 +16,17 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  useEffect(() => {
+    // If user is already authenticated, redirect to admin
+    if (localStorage.getItem("isAuthenticated") === "true") {
+      router.push("/admin");
+    }
+  }, [router]);
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (email === "contact@vitraf-alu.ci" && password === "fidele07") {
+      localStorage.setItem("isAuthenticated", "true");
       router.push("/admin");
     } else {
       toast({
