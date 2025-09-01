@@ -20,7 +20,7 @@ const navLinks = [
 
 export default function Header() {
   const pathname = usePathname();
-  const { itemCount, isAnimating } = useCart();
+  const { itemCount, isAnimating, isClient } = useCart();
 
   const renderNavLinks = (isMobile: boolean, onLinkClick?: () => void) => (
     navLinks.map((link) => (
@@ -53,15 +53,17 @@ export default function Header() {
             </a>
           </Button>
 
-          <Button variant="outline" size="icon" asChild className={cn("relative", isAnimating && "animate-shake")}>
-            <Link href="/cart">
-              <ShoppingCart className="h-5 w-5" />
-              {itemCount > 0 && (
+          <div className="relative">
+            <Button variant="outline" size="icon" asChild className={cn(isAnimating && "animate-shake")}>
+              <Link href="/cart">
+                <ShoppingCart className="h-5 w-5" />
+                 <span className="sr-only">Panier</span>
+              </Link>
+            </Button>
+            {isClient && itemCount > 0 && (
                 <Badge variant="destructive" className="absolute -top-2 -right-2 h-5 w-5 justify-center p-0">{itemCount}</Badge>
-              )}
-              <span className="sr-only">Panier</span>
-            </Link>
-          </Button>
+            )}
+          </div>
           
           <Button asChild className="hidden md:flex">
             <Link href="#contact">Devis Gratuit</Link>

@@ -27,6 +27,7 @@ interface CartContextType {
   itemCount: number;
   cartTotal: number;
   isAnimating: boolean;
+  isClient: boolean;
 }
 
 // Create the context with a default undefined value
@@ -36,6 +37,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   // Load cart from localStorage on initial render
   useEffect(() => {
@@ -47,12 +49,15 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     } catch (error) {
       console.error("Failed to parse cart from localStorage", error);
     }
+    setIsClient(true);
   }, []);
 
   // Save cart to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem('vitraf_cart', JSON.stringify(cartItems));
-  }, [cartItems]);
+    if (isClient) {
+      localStorage.setItem('vitraf_cart', JSON.stringify(cartItems));
+    }
+  }, [cartItems, isClient]);
 
   const addItem = (item: ShopItem) => {
     setCartItems(prevItems => {
@@ -98,7 +103,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const cartTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ cartItems, addItem, removeItem, updateItemQuantity, clearCart, itemCount, cartTotal, isAnimating }}>
+    <CartContext.Provider value={{ cartItems, addItem, removeItem, updateItemQuantity, clearCart, itemCount, cartTotal, isAnimating, isClient }}>
       {children}
     </CartContext.Provider>
   );
